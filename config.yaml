@@ -1,0 +1,6 @@
+api:
+  url: "http://localhost:3000/api/trade"
+  api_key: "<API_KEY>"
+  api_secret: "<API_SECRET>"
+  trade_file_path: ""
+log_level: "DEBUG"
