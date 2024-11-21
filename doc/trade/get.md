@@ -1,1 +1,2 @@
+# GET /api/trades
 
