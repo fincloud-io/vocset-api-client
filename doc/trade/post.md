@@ -23,6 +23,8 @@ submit these to their clients.
   "price": "2009 <MANDATORY> decimal - limited to 24 digits + 8 dps",
   "instrumentCode": "String <MANDATORY> contract code only, no maturity information",
   "maturity": "YYYY-MM-DD <MANDATORY>>",
+  "strike": "Decimal <MANDATORY when assetClass=Option>",
+  "optionType": "Call|Put <MANDATORY when assetClass=Option>",
   "mic": "String <MANDATORY>",
   "client": "String <MANDATORY>",
   "executingAccount": "String <OPTIONAL>",
@@ -114,6 +116,23 @@ refer to the company codes visible in VOCSET gui.
     "clearingAccount": "GC123",
     "clearingBroker": "DBAG",
     "assetClass": "Future"
+  },
+  {
+    "tradeID": "20241119-006",
+    "tradeDate": "2024-11-19",
+    "side": "Sell",
+    "quantity": "1",
+    "price": "100",
+    "instrumentCode": "B",
+    "maturity": "2025-06-01",
+    "strike": 100.1,
+    "optionType": "Call",
+    "mic": "IFEU",
+    "client": "CTCINC",
+    "productDescription": "Brent Crude ICE",
+    "clearingAccount": "GC123",
+    "clearingBroker": "DBAG",
+    "assetClass": "Option"
   }
 ]
 ```
@@ -154,6 +173,11 @@ User with `id` of '1234' sets their name, passing `UAPP` header of 'ios1_2':
     },
     {
       "id": "20241119-005",
+      "status": "OK",
+      "message": ""
+    },
+    {
+      "id": "20241119-006",
       "status": "OK",
       "message": ""
     }
