@@ -1,0 +1,5 @@
+api:
+  url: ""
+  api_key: "<API_KEY>"
+  api_secret: "<API_SECRET>"
+  trade_file_path: ""
