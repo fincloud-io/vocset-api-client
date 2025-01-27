@@ -1,6 +1,6 @@
 # Upload Active Trades
 
-Allow the user with valid API Key to upload their trades into the daily blotter, and 
+Allow the user with valid API Key to upload their trades into the daily blotter, and
 submit these to their clients.
 
 **URL** : `/api/trade`
@@ -23,18 +23,24 @@ submit these to their clients.
   "price": "2009 <MANDATORY> decimal - limited to 24 digits + 8 dps",
   "instrumentCode": "String <MANDATORY> contract code only, no maturity information",
   "maturity": "YYYY-MM-DD <MANDATORY>>",
+  "strike": "Decimal <MANDATORY when assetClass=Option>",
+  "optionType": "Call|Put <MANDATORY when assetClass=Option>",
   "mic": "String <MANDATORY>",
   "client": "String <MANDATORY>",
   "executingAccount": "String <OPTIONAL>",
+  "executingBroker": "String <OPTIONAL> only necessary when firms need to use multiple broker codes",
   "productDescription": "String <OPTIONAL>>",
   "clearingAccount": "String <MANDATORY>",
   "clearingBroker": "String <MANDATORY>",
+  "carryBroker": "String <OPTIONAL> only use when requested. Can be defaulted",
+  "executionTime": "DateTime(ISO 8601) <MANDATORY> example: 2024-12-01T14:00:04-05:00",
+  "giveupTime": "DateTime(ISO 8601) <OPTIONAL> example: 2024-12-01T14:01:00-05:00",
   "assetClass": "Future|Option <MANDATORY>"
 }
 ```
 
 Note for `Client, executingBroker, clearingBroker, executingAccount, clearingAccount` please
-refer to the company codes visible in VOCSET gui. 
+refer to the company codes visible in VOCSET gui.
 
 **Data examples**
 
@@ -53,6 +59,8 @@ refer to the company codes visible in VOCSET gui.
     "productDescription": "Brent Crude",
     "clearingAccount": "GC123",
     "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Future"
   },
   {
@@ -68,6 +76,8 @@ refer to the company codes visible in VOCSET gui.
     "productDescription": "Natural Gas",
     "clearingAccount": "GC123",
     "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Future"
   },
   {
@@ -83,6 +93,8 @@ refer to the company codes visible in VOCSET gui.
     "productDescription": "EUA Futures",
     "clearingAccount": "GC456",
     "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Future"
   },
   {
@@ -98,6 +110,8 @@ refer to the company codes visible in VOCSET gui.
     "productDescription": "WTI Crude",
     "clearingAccount": "GC456",
     "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Future"
   },
   {
@@ -113,7 +127,28 @@ refer to the company codes visible in VOCSET gui.
     "productDescription": "Brent Crude ICE",
     "clearingAccount": "GC123",
     "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Future"
+  },
+  {
+    "tradeID": "20241119-006",
+    "tradeDate": "2024-11-19",
+    "side": "Sell",
+    "quantity": "1",
+    "price": "100",
+    "instrumentCode": "B",
+    "maturity": "2025-06-01",
+    "strike": 100.1,
+    "optionType": "Call",
+    "mic": "IFEU",
+    "client": "CTCINC",
+    "productDescription": "Brent Crude ICE",
+    "clearingAccount": "GC123",
+    "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "giveupTime": "2024-11-19T14:01:00-05:00",
+    "assetClass": "Option"
   }
 ]
 ```
@@ -154,6 +189,11 @@ User with `id` of '1234' sets their name, passing `UAPP` header of 'ios1_2':
     },
     {
       "id": "20241119-005",
+      "status": "OK",
+      "message": ""
+    },
+    {
+      "id": "20241119-006",
       "status": "OK",
       "message": ""
     }
@@ -198,10 +238,10 @@ User with `id` of '1234' sets their name, passing `UAPP` header of 'ios1_2':
 ```
 ## Notes
 
-* Because some trades in the upload were valid, but the payload was formatted correctly, 
-but some trades in the upload were correct, a partially sucessful upload is possible. 
+* Because some trades in the upload were valid, but the payload was formatted correctly,
+  but some trades in the upload were correct, a partially successful upload is possible.
 * In these instances, the return code will be 200, but the payload will indicate
-individual trade errors on the status field of each result element as indicated above.
+  individual trade errors on the status field of each result element as indicated above.
 
 
 ## Error Response
