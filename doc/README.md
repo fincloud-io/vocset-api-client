@@ -19,4 +19,4 @@ Each endpoint manipulates or displays information related to the User whose
 Token is provided with the request:
 
 * [Show Trades](trade/get.md) : `GET /api/trade`
-* [Upload Trades](trade/put.md) : `PUT /api/trade`
+* [Upload Trades](trade/post.md) : `POST /api/trade`
