@@ -5,7 +5,7 @@ submit these to their clients.
 
 **URL** : `/api/trade`
 
-**Method** : `PUT`
+**Method** : `POST`
 
 **Auth required** : YES (API Key)
 
