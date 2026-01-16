@@ -11,7 +11,7 @@ submit these to their clients.
 
 **Permissions required** : None
 
-**Data constraints**
+**Data constraints (Single-Leg Trades)**
 
 ```json
 {
@@ -38,6 +38,72 @@ submit these to their clients.
   "assetClass": "Future|Option <MANDATORY>"
 }
 ```
+
+**Data constraints (Multi-Leg Trades)**
+
+Multi-leg trades use a parent-child structure where the parent trade contains an array of leg trades.
+
+```json
+{
+  "tradeID": "<MANDATORY> unique identifier for parent trade",
+  "strategyName": "CalendarSpread|CalendarStrip|VerticalSpread|Straddle|Strangle|Butterfly|Condor|IronButterfly|IronCondor|Strip|Strap|Custom <OPTIONAL>",
+  "tradeDate": "YYYY-MM-DD <MANDATORY> cannot be in future",
+  "side": "Buy|Sell <MANDATORY>",
+  "quantity": "<MANDATORY>",
+  "price": "<MANDATORY> can be 0 for spread trades",
+  "instrumentCode": "String <MANDATORY>",
+  "maturity": "YYYY-MM-DD <MANDATORY>",
+  "mic": "String <MANDATORY>",
+  "client": "String <MANDATORY>",
+  "clearingAccount": "String <MANDATORY>",
+  "clearingBroker": "String <MANDATORY>",
+  "executionTime": "DateTime(ISO 8601) <MANDATORY>",
+  "assetClass": "Future|Option <MANDATORY>",
+  "legs": [
+    {
+      "tradeID": "<MANDATORY> unique identifier for leg",
+      "parentTradeId": "<MANDATORY> must match parent tradeID",
+      "tradeDate": "YYYY-MM-DD <MANDATORY> must match parent tradeDate",
+      "side": "Buy|Sell <MANDATORY>",
+      "quantity": "<MANDATORY>",
+      "price": "<MANDATORY>",
+      "instrumentCode": "String <MANDATORY>",
+      "maturity": "YYYY-MM-DD <MANDATORY>",
+      "mic": "String <MANDATORY>",
+      "client": "String <MANDATORY> must match parent client",
+      "clearingAccount": "String <MANDATORY>",
+      "clearingBroker": "String <MANDATORY>",
+      "executionTime": "DateTime(ISO 8601) <MANDATORY>",
+      "assetClass": "Future|Option <MANDATORY>"
+    }
+  ]
+}
+```
+
+**Strategy Types and Minimum Leg Requirements**
+
+| Strategy | Min Legs | Description                                |
+|----------|----------|--------------------------------------------|
+| CalendarSpread | 2 | Different expiration dates, same strike    |
+| CalendarStrip | 2 | Buy/Sell Consecutive expiries              |
+| VerticalSpread | 2 | Same expiration, different strikes         |
+| Straddle | 2 | Buy/Sell both call and put at same strike  |
+| Strangle | 2 | Buy/Sell call and put at different strikes |
+| Butterfly | 3 | Three strikes with defined wings           |
+| Condor | 4 | Four different strikes                     |
+| IronButterfly | 4 | Short butterfly with protective wings      |
+| IronCondor | 4 | Short strangle with protective collars     |
+| Strip | 3 | One call + two puts                        |
+| Strap | 3 | Two calls + one put                        |
+| Custom | 2 | User-defined structure                     |
+
+**Multi-Leg Validation Rules**
+
+* All legs must have the same `client` as the parent trade
+* All legs must have the same `tradeDate` as the parent trade
+* Each leg's `parentTradeId` must match the parent's `tradeID`
+* Multi-leg trades must have at least 2 legs (or more depending on strategy)
+* If any leg fails validation, the entire parent trade is rejected
 
 Note for `Client, executingBroker, clearingBroker, executingAccount, clearingAccount` please
 refer to the company codes visible in VOCSET gui.
@@ -149,6 +215,64 @@ refer to the company codes visible in VOCSET gui.
     "executionTime": "2024-11-19T14:00:04-05:00",
     "giveupTime": "2024-11-19T14:01:00-05:00",
     "assetClass": "Option"
+  }
+]
+```
+
+**Multi-Leg Trade Example (Calendar Spread)**
+
+```json
+[
+  {
+    "tradeID": "ML-20241119-001",
+    "strategyName": "CalendarSpread",
+    "tradeDate": "2024-11-19",
+    "side": "Buy",
+    "quantity": "10",
+    "price": "0",
+    "instrumentCode": "CL",
+    "maturity": "2025-01-01",
+    "mic": "XNYM",
+    "client": "CTCINC",
+    "productDescription": "Crude Oil Calendar Spread",
+    "clearingAccount": "GC123",
+    "clearingBroker": "DBAG",
+    "executionTime": "2024-11-19T14:00:04-05:00",
+    "assetClass": "Future",
+    "legs": [
+      {
+        "tradeID": "ML-20241119-001-L1",
+        "parentTradeId": "ML-20241119-001",
+        "tradeDate": "2024-11-19",
+        "side": "Buy",
+        "quantity": "10",
+        "price": "70.50",
+        "instrumentCode": "CL",
+        "maturity": "2025-01-01",
+        "mic": "XNYM",
+        "client": "CTCINC",
+        "clearingAccount": "GC123",
+        "clearingBroker": "DBAG",
+        "executionTime": "2024-11-19T14:00:04-05:00",
+        "assetClass": "Future"
+      },
+      {
+        "tradeID": "ML-20241119-001-L2",
+        "parentTradeId": "ML-20241119-001",
+        "tradeDate": "2024-11-19",
+        "side": "Sell",
+        "quantity": "10",
+        "price": "71.25",
+        "instrumentCode": "CL",
+        "maturity": "2025-02-01",
+        "mic": "XNYM",
+        "client": "CTCINC",
+        "clearingAccount": "GC123",
+        "clearingBroker": "DBAG",
+        "executionTime": "2024-11-19T14:00:04-05:00",
+        "assetClass": "Future"
+      }
+    ]
   }
 ]
 ```
