@@ -1,5 +1,17 @@
 # VOCSET API Documentation
 
+![](VOCSET_192x192_transparent.png)
+
+## Version History
+
+| Version | Date       | Changes                             |
+|---------|------------|-------------------------------------|
+| 1.1.0   | 2026-01-16 | Updated for multi-leg trade support |
+| 1.0.1   | 2025-12-29 | Various small updates               |
+| 1.0.0   | 2024-11-19 | Initial release - single-leg trades |
+
+---
+
 This document outlines the VOCSET API used to upload trade data directly into the application. Currently a very restricted sub-set of the application features are available from the API - just those operations to handle trade data.
 
 ## Authentication & Authorisation

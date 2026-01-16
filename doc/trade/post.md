@@ -283,8 +283,7 @@ refer to the company codes visible in VOCSET gui.
 
 **Code** : `200 OK` (response payload need to be examined for individual trade errors)
 
-**Content example** : Response will reflect back the updated information. A
-User with `id` of '1234' sets their name, passing `UAPP` header of 'ios1_2':
+**Content example** : Response will reflect back the updated information.
 
 ```json
 {
