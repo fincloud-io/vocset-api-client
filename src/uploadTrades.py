@@ -153,8 +153,11 @@ def upload_trades(config, trade_file):
     try:
         response = requests.post(url, json=trade_data, headers=headers)
         if response.status_code == 200:
-            logging.info("Trades uploaded successfully")
-            logging.debug("Response: %s", response.json())
+            res = response.json()
+            if 'ERROR' in [i['status'] for i in res['result']]:
+                logging.error("Response: %s", res['result'])
+            else:
+                logging.info("Response: %s", response.json())
         else:
             logging.error("Upload failed: %s %s", response.status_code, response.text)
     except requests.exceptions.RequestException as e:
