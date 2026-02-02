@@ -6,6 +6,7 @@
 
 | Version | Date       | Changes                             |
 |---------|------------|-------------------------------------|
+| 1.1.1   | 2026-02-01 | Simplified mult-leg trade format.   |
 | 1.1.0   | 2026-01-16 | Updated for multi-leg trade support |
 | 1.0.1   | 2025-12-29 | Various small updates               |
 | 1.0.0   | 2024-11-19 | Initial release - single-leg trades |
@@ -16,7 +17,7 @@ This document outlines the VOCSET API used to upload trade data directly into th
 
 ## Authentication & Authorisation
 
-All API endpoints are secured using an key. Setting up an API Key / Secret can be managed from the VOCSET application, in your user profile.
+All endpoints are secured using an API key. Setting up a Key / Secret can be managed from the VOCSET application, in your user profile.
 
 When calling the API, the api key and api secret should be placed in the named headers in all requests. 
 

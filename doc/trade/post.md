@@ -62,17 +62,12 @@ Multi-leg trades use a parent-child structure where the parent trade contains an
   "legs": [
     {
       "tradeID": "<MANDATORY> unique identifier for leg",
-      "parentTradeId": "<MANDATORY> must match parent tradeID",
-      "tradeDate": "YYYY-MM-DD <MANDATORY> must match parent tradeDate",
       "side": "Buy|Sell <MANDATORY>",
       "quantity": "<MANDATORY>",
       "price": "<MANDATORY>",
       "instrumentCode": "String <MANDATORY>",
       "maturity": "YYYY-MM-DD <MANDATORY>",
       "mic": "String <MANDATORY>",
-      "client": "String <MANDATORY> must match parent client",
-      "clearingAccount": "String <MANDATORY>",
-      "clearingBroker": "String <MANDATORY>",
       "executionTime": "DateTime(ISO 8601) <MANDATORY>",
       "assetClass": "Future|Option <MANDATORY>"
     }
@@ -99,9 +94,7 @@ Multi-leg trades use a parent-child structure where the parent trade contains an
 
 **Multi-Leg Validation Rules**
 
-* All legs must have the same `client` as the parent trade
-* All legs must have the same `tradeDate` as the parent trade
-* Each leg's `parentTradeId` must match the parent's `tradeID`
+* Legs inherit `client`, `tradeDate`, `clearingBroker`, `clearingAccount`, `executingBroker`, and `executingAccount` from the parent trade
 * Multi-leg trades must have at least 2 legs (or more depending on strategy)
 * If any leg fails validation, the entire parent trade is rejected
 
@@ -242,33 +235,23 @@ refer to the company codes visible in VOCSET gui.
     "legs": [
       {
         "tradeID": "ML-20241119-001-L1",
-        "parentTradeId": "ML-20241119-001",
-        "tradeDate": "2024-11-19",
         "side": "Buy",
         "quantity": "10",
         "price": "70.50",
         "instrumentCode": "CL",
         "maturity": "2025-01-01",
         "mic": "XNYM",
-        "client": "CTCINC",
-        "clearingAccount": "GC123",
-        "clearingBroker": "DBAG",
         "executionTime": "2024-11-19T14:00:04-05:00",
         "assetClass": "Future"
       },
       {
         "tradeID": "ML-20241119-001-L2",
-        "parentTradeId": "ML-20241119-001",
-        "tradeDate": "2024-11-19",
         "side": "Sell",
         "quantity": "10",
         "price": "71.25",
         "instrumentCode": "CL",
         "maturity": "2025-02-01",
         "mic": "XNYM",
-        "client": "CTCINC",
-        "clearingAccount": "GC123",
-        "clearingBroker": "DBAG",
         "executionTime": "2024-11-19T14:00:04-05:00",
         "assetClass": "Future"
       }

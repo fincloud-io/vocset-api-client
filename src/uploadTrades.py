@@ -39,9 +39,16 @@ def restructure_multileg_trades(trades):
 
     Trades with a 'parentTradeId' are grouped as legs under their parent trade.
     Single-leg trades (no parentTradeId) are passed through unchanged.
+
+    Note: parentTradeId is only used for Excel restructuring - it is removed
+    from legs before sending to the API, as legs inherit these values from parent.
     """
     parents = {}
     single_legs = []
+
+    # Fields that legs inherit from parent (should not be sent on legs)
+    inherited_fields = ['parentTradeId', 'tradeDate', 'client', 'executingBroker',
+                        'executingAccount', 'clearingBroker', 'clearingAccount']
 
     # First pass: identify parent trades and single-leg trades
     for trade in trades:
@@ -57,11 +64,13 @@ def restructure_multileg_trades(trades):
             # Single-leg trade
             single_legs.append(trade)
 
-    # Second pass: attach legs to their parents
+    # Second pass: attach legs to their parents, removing inherited fields
     for trade in trades:
         parent_id = trade.get('parentTradeId')
         if parent_id and parent_id in parents:
-            parents[parent_id]['legs'].append(trade)
+            # Remove fields that are inherited from parent
+            leg = {k: v for k, v in trade.items() if k not in inherited_fields}
+            parents[parent_id]['legs'].append(leg)
 
     # Combine single-leg trades and parent trades (with nested legs)
     return single_legs + list(parents.values())
