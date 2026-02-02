@@ -1,5 +1,4 @@
 api:
-  url: ""
+  url: "https://api.vocset.net/api/trade"
   api_key: "<API_KEY>"
   api_secret: "<API_SECRET>"
-  trade_file_path: ""
