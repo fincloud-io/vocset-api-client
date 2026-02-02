@@ -73,7 +73,130 @@ Details of an `Option` trade on `XNYM` exchange.
 }]
 ```
 
+Details of a `CalendarSpread` multi-leg trade on `IFEU` exchange.
+
+```json
+[{
+  "tradeID": "ML-20250116-001",
+  "userID": "jj@java2go.com",
+  "strategyName": "CalendarSpread",
+  "side": "Buy",
+  "quantity": 10,
+  "price": 0.00000000,
+  "tradeDate": "2025-01-16",
+  "currency": "USD",
+  "mic": "IFEU",
+  "assetClass": "Future",
+  "instrumentCode": "B",
+  "instrumentCodeType": "Ticker",
+  "optionType": "None",
+  "maturity": "2025-03-01",
+  "client": "CTCLTD",
+  "executingBroker": "DBAG",
+  "executingAccount": "",
+  "clearingBroker": "DBAG",
+  "clearingAccount": "GC123",
+  "executionTime": "2025-01-16T10:00:00Z",
+  "reportedTime": "2025-01-16T10:00:01.123456Z",
+  "legs": [
+    {
+      "tradeID": "ML-20250116-001-L1",
+      "side": "Buy",
+      "quantity": 10,
+      "price": 76.00000000,
+      "mic": "IFEU",
+      "assetClass": "Future",
+      "instrumentCode": "B",
+      "maturity": "2025-03-01",
+      "executionTime": "2025-01-16T10:00:00Z"
+    },
+    {
+      "tradeID": "ML-20250116-001-L2",
+      "side": "Sell",
+      "quantity": 10,
+      "price": 75.50000000,
+      "mic": "IFEU",
+      "assetClass": "Future",
+      "instrumentCode": "B",
+      "maturity": "2025-04-01",
+      "executionTime": "2025-01-16T10:00:00Z"
+    }
+  ]
+}]
+```
+
+Details of a `Butterfly` options multi-leg trade on `IFEU` exchange.
+
+```json
+[{
+  "tradeID": "ML-20250116-003",
+  "userID": "jj@java2go.com",
+  "strategyName": "Butterfly",
+  "side": "Buy",
+  "quantity": 10,
+  "price": 0.00000000,
+  "tradeDate": "2025-01-16",
+  "currency": "USD",
+  "mic": "IFEU",
+  "assetClass": "Option",
+  "instrumentCode": "B",
+  "instrumentCodeType": "Ticker",
+  "strike": 75.00,
+  "optionType": "Call",
+  "maturity": "2025-06-01",
+  "client": "CTCLTD",
+  "executingBroker": "DBAG",
+  "executingAccount": "",
+  "clearingBroker": "DBAG",
+  "clearingAccount": "GC123",
+  "executionTime": "2025-01-16T10:00:00Z",
+  "reportedTime": "2025-01-16T10:00:01.123456Z",
+  "legs": [
+    {
+      "tradeID": "ML-20250116-003-L1",
+      "side": "Buy",
+      "quantity": 10,
+      "price": 5.00000000,
+      "mic": "IFEU",
+      "assetClass": "Option",
+      "instrumentCode": "B",
+      "maturity": "2025-06-01",
+      "strike": 70.00,
+      "optionType": "Call",
+      "executionTime": "2025-01-16T10:00:00Z"
+    },
+    {
+      "tradeID": "ML-20250116-003-L2",
+      "side": "Sell",
+      "quantity": 20,
+      "price": 3.00000000,
+      "mic": "IFEU",
+      "assetClass": "Option",
+      "instrumentCode": "B",
+      "maturity": "2025-06-01",
+      "strike": 75.00,
+      "optionType": "Call",
+      "executionTime": "2025-01-16T10:00:00Z"
+    },
+    {
+      "tradeID": "ML-20250116-003-L3",
+      "side": "Buy",
+      "quantity": 10,
+      "price": 1.50000000,
+      "mic": "IFEU",
+      "assetClass": "Option",
+      "instrumentCode": "B",
+      "maturity": "2025-06-01",
+      "strike": 80.00,
+      "optionType": "Call",
+      "executionTime": "2025-01-16T10:00:00Z"
+    }
+  ]
+}]
+```
+
 ## Notes
 
-* The fields `strike` and `optionType` are only returned for `Option` orders.
-
+* The fields `strike` and `optionType` are only returned for `Option` trades.
+* Multi-leg trades include a `strategyName` field and a `legs` array containing individual leg trades.
+* Legs inherit `client`, `tradeDate`, `clearingBroker`, `clearingAccount`, `executingBroker`, and `executingAccount` from the parent trade.
