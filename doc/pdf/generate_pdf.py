@@ -9,6 +9,9 @@ from pathlib import Path
 
 DOC_DIR = Path(__file__).parent.parent  # Points to doc/ directory
 
+# Documentation version - used for the output PDF filename
+VERSION = "1.2"
+
 # CSS styling for the PDF
 CSS_STYLES = """
 @page {
@@ -142,6 +145,7 @@ def main():
     readme = read_markdown(DOC_DIR / "README.md")
     get_doc = read_markdown(DOC_DIR / "trade" / "get.md")
     post_doc = read_markdown(DOC_DIR / "trade" / "post.md")
+    apikey_doc = read_markdown(DOC_DIR / "auth" / "apiKey.md")
 
     # Combine content with page breaks
     combined_md = f"""{readme}
@@ -153,6 +157,10 @@ def main():
 <div class="page-break"></div>
 
 {get_doc}
+
+<div class="page-break"></div>
+
+{apikey_doc}
 """
 
     # Convert to HTML
@@ -172,7 +180,7 @@ def main():
 """
 
     # Generate PDF (output to pdf/ subdirectory)
-    output_path = DOC_DIR / "pdf" / "VOCSET_API_Documentation.pdf"
+    output_path = DOC_DIR / "pdf" / f"VOCSET_API_Documentation_{VERSION}.pdf"
     HTML(string=full_html, base_url=str(DOC_DIR)).write_pdf(
         output_path,
         stylesheets=[CSS(string=CSS_STYLES)]
