@@ -6,6 +6,7 @@
 
 | Version | Date       | Changes                             |
 |---------|------------|-------------------------------------|
+| 1.2     | 2026-07-21 | Added programmatic API key rotation endpoint (`POST /api/auth/apiKey/rotate`) |
 | 1.1.1   | 2026-02-01 | Simplified mult-leg trade format.   |
 | 1.1.0   | 2026-01-16 | Updated for multi-leg trade support |
 | 1.0.1   | 2025-12-29 | Various small updates               |
@@ -33,3 +34,7 @@ Token is provided with the request:
 
 * [Show Trades](trade/get.md) : `GET /api/trade`
 * [Upload Trades](trade/post.md) : `POST /api/trade`
+
+### Managing API Keys
+
+* [Rotate API Key](auth/apiKey.md) : `POST /api/auth/apiKey/rotate`
